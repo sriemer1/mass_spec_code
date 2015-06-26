@@ -57,6 +57,37 @@ Code to analyze RGA data
 - The differences are calculated by subtracting the background data from the plasma data.
     Example: In plasma data the intensity at 1 amu is 8.11E-9, in background data the                         intensity at 1 amu     is 7.57E-9, so the difference at 1 amu is 5.4E-10
 - Since the data we care most about is at the peaks, and the peaks usually hover around integers and x.9, x.1,x.2, there is a loop that only calculates the differences at the mass values.
+- Then it only adds a difference to the list if it reaches the minimum percent difference
+
+###Getting data for the file of peak intensities
+- Since the peaks are typically found only +.2, -.1 away from an integer mass, the program uses the list intensityP_ to find the largest intensities. 
+- There is a loop that looks through intensityP_ in groups of four (.9,.0,.1,.2) and pulls out the max intensity and its corresponding mass and puts them into a list called peaks. There is a counter that keeps track of the index of the max intensity in intensityP_, so that we can use this counter to get the corresponding mass for that intensity. These masses are also added to the list peaks.
+- Since for the integer masses 1 and 100 there are only 3 and 2 possible intensities, respectively, in the +.2 -.1 range, these values are analyzed separately. That is also why the loop that looks through the bulk of the data starts at index 3 and ends before 99.9 and 100 (goes to the length intensityP_ - 2). These intensities and corresponding masses are also added to peaks.
+
+###Getting the differences at the peaks
+- In order to find the difference between the background and plasma data at the peaks, the program looks at all the differences in differences, and all of the peaks in peaks. All of the masses for the peaks can be found in differences, but not all of the masses for the differences can be found in peaks. 
+- In order to compare the masses to see which ones are contained in both lists, the two files created earlier are read into the program and two lists are created from these files, one called massDiffs, which contains the masses from the differences file, and massPeaks.
+- The differences are also read in and stored in a list called diffs, since the new file will need some of these differences.
+- Then, a loop looks through both of the lists (massPeaks and massDifferences), and if any value in massDifferences is also in massPeaks, it is added to a list called peakMassTemp along with its corresponding difference.
+- peakMassTemp is a temporary list containing duplicates for each mass and difference which comes from using the for loop. Therefore a new list called peakMass is created outside the loop which only takes the unique values (this is where the program uses the numpy “unique” function).
+- The values in peakMass, which are the masses and the differences at the peaks corresponding to those masses, are written to a new file with the same naming convention as the other two, except it ends in peak_differences
+
+###Making the files
+- Naming convention for all the files created in this program: date time torr error (differences_data, peak_data), run number
+- Every value in differences (which contains the difference and the corresponding mass) is written to a new file, and every value in peaks (which contains the peak intensity and corresponding mass) is written to another new file
+- The new files are saved in a new folder on the desktop. In that new folder another new folder is created with the name “Data tables flow rate, torr, run numer (if applicable)” and then the three files generated from the program are put into this folder.
+
+###Fourth File
+- The final file created is a file with various peak differences for run numbers of your choosing. 
+- At the beginning the code asks Enter the run numbers you would like to see peak data for: 
+- The code then creates a new file with the peak differences at these run numbers to allow for preliminary comparisons before quantitatively analyzing the data.
+
+###What the program does
+- Total data files read in: 2
+- Total graphs created: 2
+- Total files created: 4
+
+
 
 
 
