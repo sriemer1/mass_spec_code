@@ -27,4 +27,7 @@ Code to analyze RGA data
 - After the spectrometer is run the files are saved as text (.txt) files into a folder. That folder should be the current working directory in Canopy, which you can change in the lower right hand corner of the Canopy screen.
 - The background text files are saved in the format: ___ torr gas scan runNumber
 - The user enters the torr run number of the gas (same torr for plasma), flow rate, and the date the file was made and the program reads in the file with those specifications
+- If no run number is entered the program uses a  “default” background scan file
+- * If no file is found the program will tell you and you will have to run the program again with a proper file name
+
 
