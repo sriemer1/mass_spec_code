@@ -50,7 +50,6 @@ while programOn:
     else:
         run_Nums_given = True 
             
-
     #Line to start reading data from, excluding setup info at top of file
     startLine = 22
     mass = [] #list containing mass values
