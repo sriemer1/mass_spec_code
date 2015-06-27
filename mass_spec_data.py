@@ -24,21 +24,21 @@ while programOn:
 
     #ask user for the torr, run number, flow and date the data is from
     date1 = str(raw_input("Enter the date of the scan (mm-dd-yyyy): "))
+    torr = str(raw_input("Enter torr: "))
+    flow = str(raw_input("Enter flow: "))
     user_response = str(raw_input("Do you want to use the default background scan (y/n)? "))
     if user_response == 'y':
      filename1 = "06-02-2015 1-100 20sccm 3 torr gas scan.txt"  #default background scan
     elif user_response == 'n':
         #if background file endswith correct torr, run num, flow
-        for i in os.listdir(os.getcwd()):
             try:
                 runNumB = str(raw_input("Enter run number for background: "))
             except:
                 runNumB = None
             date2 = str(raw_input("Enter date for background: "))
-            if i.endswith(flow+"sccm "+torr+" torr gas scan "+runNumB+".txt") and i.startswith(date2):
-                filename1 = i     #gets corresponding file name       
-    torr = str(raw_input("Enter torr: "))
-    flow = str(raw_input("Enter flow: "))
+            for i in os.listdir(os.getcwd()):
+                if i.endswith(flow+"sccm "+torr+" torr gas scan "+runNumB+".txt") and i.startswith(date2):
+                    filename1 = i     #gets corresponding file name       
     try:
         runNumP = str(raw_input("Enter run number for plasma: "))
     except:
