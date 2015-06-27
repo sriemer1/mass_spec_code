@@ -43,13 +43,13 @@ while programOn:
         runNumP = str(raw_input("Enter run number for plasma: "))
     except:
         runNumP = None   #assigns no run number if no number is entered
-    try:
-        run_Nums1 = str(raw_input("Enter the run numbers you would like to see peak data for: "))
-        run_Nums = run_Nums1.split(",")  #turns into a list
-        run_Nums_given = True
-    except:
-        run_Nums_given = False  #if you don't want the 4th file generated for this run
-        pass    
+    run_Nums1 = str(raw_input("Enter the run numbers you would like to see peak data for: "))
+    run_Nums = run_Nums1.split(",")  #turns into a list
+    if not run_Nums:
+        run_Nums_given = False   #if you don't want the 4th file generated for this run
+    else:
+        run_Nums_given = True  
+            
 
     #Line to start reading data from, excluding setup info at top of file
     startLine = 22
