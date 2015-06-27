@@ -45,10 +45,10 @@ while programOn:
         runNumP = None   #assigns no run number if no number is entered
     run_Nums1 = str(raw_input("Enter the run numbers you would like to see peak data for: "))
     run_Nums = run_Nums1.split(",")  #turns into a list
-    if not run_Nums:
+    if run_Nums==['']:
         run_Nums_given = False   #if you don't want the 4th file generated for this run
     else:
-        run_Nums_given = True  
+        run_Nums_given = True 
             
 
     #Line to start reading data from, excluding setup info at top of file
@@ -161,40 +161,72 @@ while programOn:
     
         #only looks at data ending in .9, .0, .1, .2
         #adds differences to differences list if there is at least an x percent error between plasma and bckgrnd
+                
+        '''
+            Adds mass and corresponding difference to differences list.
+            @param list_    list you want to add elements to
+            @param mass     corresponding mass to add
+            @param diff     difference to add
+        '''
+        def addToList(list_,mass,diff):
+            list_.append(str(mass)+ ",  " +str(diff)+",")    
+        
+        '''
+            Identifies if difference is within the given error. 
+            @param diff_    difference to evaluate
+            @param plasma   plasma value
+            @param background   background value
+            @return True if difference is within error, False otherwise
+        '''
+        def withinError(diff_, plasma, background):
+            if float((diff_)/(float(plasma))) >= error or float(abs((diff_)/float(background))) >= error:
+                return True   
+            else:
+                return False 
+        '''
+            Gets the difference between plasma and background scan.
+            @param plasma   plasma intensity
+            @param background   background intensity
+            @return  Difference between plasma and background intensities
+        '''
+        def diff(plasma, background):
+            return float(plasma)-float(background)
         
         #1.0,1.1,1.2
-        diff0 = float(intensityP[0])-float(intensityB[0])
-        diff01 = float(intensityP[1])-float(intensityB[1])
-        diff02 = float(intensityP[2])-float(intensityB[2])
-        if float((diff0)/(float(intensityP[0]))) >= error or float(abs((diff0)/float(intensityB[0]))) >= error:
-                differences.append(str(mass[0])+ ",  " +str(diff0)+",")
-        if float((diff01)/(float(intensityP[1]))) >= error or float(abs((diff01)/float(intensityB[1]))) >= error:
-                differences.append(str(mass[1])+ ",  " +str(diff01)+",")
-        if float((diff02)/(float(intensityP[2]))) >= error or float(abs((diff02)/float(intensityB[2]))) >= error:
-                differences.append(str(mass[2])+ ",  " +str(diff02)+",")
+        diff0 = diff(intensityP[0],intensityB[0])
+        diff01 = diff(intensityP[1], intensityB[1])
+        diff02 = diff(intensityP[2], intensityB[2])
+        
+        if withinError(diff0, intensityP[0], intensityB[0]):
+            addToList(differences, mass[0], diff0)
+        if withinError(diff01, intensityP[1], intensityB[1]):
+            addToList(differences, mass[1], diff01)
+        if withinError(diff02, intensityP[2], intensityB[2]):
+            addToList(differences, mass[2], diff02)
         
         #middle
         for i in range(10,length-8,10):
-            diff1 = float(intensityP[i])-float(intensityB[i]) #subtract background from plasma
-            diff2 = float(intensityP[i-1])-float(intensityB[i-1])
-            diff3 = float(intensityP[i+1])-float(intensityB[i+1])
-            diff4 = float(intensityP[i+2])-float(intensityB[i+2])
-            if float((diff2)/(float(intensityP[i-1]))) >= error or float(abs((diff2)/float(intensityB[i-1]))) >= error:
-                differences.append(str(mass[i-1])+ ",  " +str(diff2)+",")
-            if float((diff1)/(float(intensityP[i]))) >= error or float(abs((diff1)/float(intensityB[i]))) >= error:
-                differences.append(str(mass[i])+ ",  " +str(diff1)+",")
-            if float((diff3)/(float(intensityP[i+1]))) >= error or float(abs((diff3)/float(intensityB[i+1]))) >= error:
-                differences.append(str(mass[i+1])+ ",  " +str(diff3)+",")
-            if float((diff4)/(float(intensityP[i+2]))) >= error or float(abs((diff4)/float(intensityB[i+2]))) >= error:
-                differences.append(str(mass[i+2])+ ",  " +str(diff4)+",")
+            diff1 = diff(intensityP[i], intensityB[i]) 
+            diff2 = diff(intensityP[i-1], intensityB[i-1])
+            diff3 = diff(intensityP[i+1], intensityB[i+1])
+            diff4 = diff(intensityP[i+2], intensityB[i+2])
+            
+            if withinError(diff2, intensityP[i-1], intensityB[i-1]):
+                addToList(differences, mass[i-1], diff2)
+            if withinError(diff1, intensityP[i], intensityB[i]):
+                addToList(differences, mass[i], diff1)
+            if withinError(diff3, intensityP[i+1], intensityB[i+1]):
+                addToList(differences, mass[i+1], diff3)
+            if withinError(diff4, intensityP[i+2], intensityB[i+2]):
+                addToList(differences, mass[i+2], diff4)
                 
         #to account for 100 and 99.9 which get cut off in above loop
-        diff5 = float(intensityP[length-1])-float(intensityB[length-1])
-        diff6 = float(intensityP[length-2])-float(intensityB[length-2])
-        if float((diff5)/(float(intensityP[length-1]))) >= error or float(abs((diff5)/float(intensityB[length-1]))) >= error:
-            differences.append(str(mass[length-1])+ ",  " +str(diff5)+",")
-        if float((diff6)/(float(intensityP[length-2]))) >= error or float(abs((diff6)/float(intensityB[length-2]))) >= error:
-            differences.append(str(mass[length-2])+ ",  " +str(diff6)+",")
+        diff5 = diff(intensityP[length-1], intensityB[length-1]) 
+        diff6 = diff(intensityP[length-2], intensityB[length-2])
+        if withinError(diff5, intensityP[length-1], intensityB[length-1]):
+                addToList(differences, mass[length-1], diff5)
+        if withinError(diff6, intensityP[length-2], intensityB[length-2]):
+                addToList(differences, mass[length-2], diff6)
         
         #finds peaks in plasma data
         
