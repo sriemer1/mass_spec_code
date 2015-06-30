@@ -89,7 +89,7 @@ Code to analyze RGA data
 - Total graphs created: 2
 - Total files created: 4
 
-##Sample Run
+##***Sample Run
 - Enter the date of the scan (mm-dd-yyyy): Enter the date that the plasma scan was run
 - Enter torr: Enter the torr used for the plasma scan
 - Enter flow: Enter the flow used for the plasma scan
