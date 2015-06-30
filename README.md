@@ -2,6 +2,8 @@
 ## mass_spec_data.py
 Code to analyze RGA data
 
+*** Scroll to the bottom to see a sample run.
+
 ###Specs
 - Language used: Python
 - Written and tested using Enthought Canopy software, a python compiler
@@ -86,6 +88,32 @@ Code to analyze RGA data
 - Total data files read in: 2
 - Total graphs created: 2
 - Total files created: 4
+
+##Sample Run
+- Enter the date of the scan (mm-dd-yyyy): Enter the date that the plasma scan was run
+- Enter torr: Enter the torr used for the plasma scan
+- Enter flow: Enter the flow used for the plasma scan
+- Do you want to use the default background scan (y/n)? If you type 'y', the program uses the chosen default scan file,            06-02-2015 1-100 20sccm 3 torr gas scan.txt. If you type 'n' there are further prompts:
+    - Enter run number for background: Enter the run number of the background. If there is no run number, just hit enter
+    - Enter date for background: Enter the date the background scan was run
+- Enter run number for plasma: Enter the run number of the plasma scan. If there is no run number, hit enter
+- Enter the run numbers you would like to see peak data for: Enter the run numbers. If you do not want to generate this file for a particular program run, hit enter
+- Would you like to set any parameters for the min/max x and y values (y/n)? Enter 'y' if you want to have the generated graph be zoomed in to a certain area. Enter 'n' if you just want the default plot size.
+- Would you like to generate data tables (y/n)? Enter 'y' if you want to see the data analysis (differences, peaks, diffs. at peaks). Enter 'n' if you just want to see the plots for a particular run. Entering 'n' will end the program.
+- Enter error as a decimal: Enter the error you want to see differences data for
+- Data generated, would you like to run another set of data (y/n)? Enter 'y' if you want to run the program again, 'n' if not. Entering 'n' will end the program.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
